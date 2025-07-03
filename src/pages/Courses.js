@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
 import { doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
 import CourseDetails from '../components/CourseDetails';
+import Footer from '../components/Footer';
 
  
 
@@ -189,6 +190,7 @@ async function saveCourseProgress(courseId, score, total) {
   const lesson = selectedCourse.lessons[currentLessonIndex];
 
   return (
+    <>
     <div style={{ maxWidth: 800, margin: 'auto', padding: 20, fontFamily: 'Arial, sans-serif' }}>
       <button
         onClick={() => setSelectedCourse(null)}
@@ -244,6 +246,8 @@ async function saveCourseProgress(courseId, score, total) {
         {currentLessonIndex < selectedCourse.lessons.length - 1 ? 'Next Lesson' : 'Finish Course'}
       </button>
     </div>
+   <Footer />
+    </>
   );
 };
 
