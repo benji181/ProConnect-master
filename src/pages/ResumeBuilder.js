@@ -374,7 +374,7 @@ const ResumeBuilderATS = () => {
     <>
       <VvipContainer maxWidth="md">
         <Typography variant="h2" gutterBottom sx={{fontWeight: '900', letterSpacing: 3, mb: 4, fontSize: '3rem'  }}>
-          VVIP Resume ATS Compatibility Checker
+          Premium Resume ATS Compatibility Checker
         </Typography>
 
         <Box sx={{ my: 3 }}>

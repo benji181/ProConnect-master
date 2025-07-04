@@ -1,22 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  Box, Typography, TextField, Button, Container, Grid, Link, Divider, 
-  useMediaQuery, useTheme 
+  Box, Typography, TextField, Button, Container, useMediaQuery, useTheme 
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import Footer from '../components/Footer';
+import { auth } from '../firebase';  
+import Footer from '../components/Footer'
 
 const Home = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
 
-  // State for search inputs
   const [jobTitle, setJobTitle] = useState('');
   const [location, setLocation] = useState('');
+  const [user, setUser] = useState(null);
 
-  // Handle search button click
+  // Listen to auth state changes
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(currentUser => {
+      setUser(currentUser);
+    });
+    return unsubscribe;
+  }, []);
+
   const handleSearch = () => {
+    if (!user) {
+      // Redirect unauthenticated users to login
+      navigate('/login');
+      return;
+    }
+
     const params = new URLSearchParams();
     if (jobTitle.trim()) params.append('title', jobTitle.trim());
     if (location.trim()) params.append('location', location.trim());
@@ -26,7 +39,6 @@ const Home = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* Main content */}
       <Container 
         maxWidth="md" 
         sx={{ 
@@ -60,7 +72,6 @@ const Home = () => {
             onChange={(e) => setJobTitle(e.target.value)}
           />
 
-        
           <TextField 
             label="Location" 
             variant="outlined" 
@@ -92,13 +103,20 @@ const Home = () => {
             color="primary"
             size={isMobile ? "medium" : "large"}
             fullWidth={isMobile}
+            onClick={() => {
+              if (!user) {
+                navigate('/login');
+              } else {
+                navigate('/jobs');
+              }
+            }}
           >
             Join your work community
           </Button>
         </Box>
       </Container>
-     <Footer/>
-</Box>
+      <Footer />
+    </Box>
   );
 };
 

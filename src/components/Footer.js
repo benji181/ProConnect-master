@@ -59,7 +59,7 @@ const Footer = () => {
             <Link component={RouterLink} to="/research" underline="hover" display="block" mb={0.5} color="inherit">
               Research
             </Link>
-            <Link component={RouterLink} to="/contact" underline="hover" display="block" mb={0.5} color="inherit">
+            <Link component={RouterLink} to="/Contactus" underline="hover" display="block" mb={0.5} color="inherit">
               Contact Us
             </Link>
           </Grid>

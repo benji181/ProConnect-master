@@ -12,6 +12,8 @@ import Profile from './pages/Profile';
 import NavigationBar from './components/NavigationBar'; // Import the new component
 import AboutUs from './pages/Aboutus';
 import NotFound from './pages/NotFound';
+import JobDetails from './components/JobDetails';
+import Contactus from './pages/Contacts';
 
 function App() {
   return (
@@ -29,7 +31,11 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/Contactus" element={<Contactus />} />
+
           <Route path="*" element={<NotFound />} />
+          <Route path="/jobs/:id" element={<JobDetails />} />
+
         </Routes>
       </Box>
     </Router>

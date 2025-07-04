@@ -53,7 +53,13 @@ const NavigationBar = () => {
     setDrawerOpen(open);
   };
 
-  const navLinks = [
+  // Links for unauthenticated users
+  const publicLinks = [
+    { title: 'Home', path: '/' },
+  ];
+
+  // Links for authenticated users
+  const privateLinks = [
     { title: 'Home', path: '/' },
     { title: 'Jobs', path: '/jobs' },
     { title: 'Skill Courses', path: '/courses' },
@@ -76,7 +82,7 @@ const NavigationBar = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {navLinks.map(({ title, path }) => (
+        {(user ? privateLinks : publicLinks).map(({ title, path }) => (
           <ListItem
             button
             component={Link}
@@ -144,7 +150,7 @@ const NavigationBar = () => {
             </>
           ) : (
             <>
-              {navLinks.map(({ title, path }) => (
+              {(user ? privateLinks : publicLinks).map(({ title, path }) => (
                 <Button
                   key={title}
                   color="inherit"
@@ -177,7 +183,7 @@ const NavigationBar = () => {
                     sx={{ ml: 3 }}
                   >
                     <Avatar
-                      alt={user.email}
+                      alt={user.displayName || user.email}
                       src={user.photoURL || ''}
                       sx={{ width: 48, height: 48 }}
                     />
@@ -201,7 +207,6 @@ const NavigationBar = () => {
           )}
         </Toolbar>
       </AppBar>
-      
       <Toolbar />
     </>
   );

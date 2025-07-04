@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Box, Typography, TextField, Button, Alert } from '@mui/material';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import {auth} from '../firebase'
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../firebase';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -11,12 +12,27 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const provider = new GoogleAuthProvider();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
+      navigate('/'); 
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError('');
+    try {
+      setLoading(true);
+      await signInWithPopup(auth, provider);
       navigate('/'); // Redirect after login
     } catch (err) {
       setError(err.message);
@@ -26,12 +42,14 @@ const Login = () => {
   };
 
   return (
+    <>
     <Container maxWidth="xs">
       <Box sx={{ mt: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography variant="h5" component="h1" gutterBottom>
           Log In to ProConnect
         </Typography>
         {error && <Alert severity="error" sx={{ width: '100%', mb: 2 }}>{error}</Alert>}
+
         <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
           <TextField
             label="Email"
@@ -41,6 +59,7 @@ const Login = () => {
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
           />
           <TextField
             label="Password"
@@ -50,6 +69,7 @@ const Login = () => {
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
           />
           <Button
             type="submit"
@@ -62,6 +82,18 @@ const Login = () => {
             Log In
           </Button>
         </Box>
+
+        <Button
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          onClick={handleGoogleSignIn}
+          disabled={loading}
+          sx={{ mt: 2 }}
+        >
+          Sign In with Google
+        </Button>
+
         <Typography variant="body2" sx={{ mt: 2 }}>
           Don't have an account?{' '}
           <RouterLink to="/signup" style={{ textDecoration: 'none', color: '#1976d2' }}>
@@ -70,6 +102,8 @@ const Login = () => {
         </Typography>
       </Box>
     </Container>
+    <Footer/>
+    </>
   );
 };
 
