@@ -8,8 +8,8 @@ const NotFound = () => (
       <Typography variant="h3" gutterBottom>
         404 - Page Not Found
       </Typography>
-      <Typography variant="body1">
-        Sorry, the page you are looking for does not exist.
+      <Typography variant="h5">
+        OOPs!,it’s not you its us , the page you are looking for does not exist.
       </Typography>
     </Box>
     <Footer/>
