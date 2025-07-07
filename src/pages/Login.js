@@ -59,7 +59,7 @@ const Login = () => {
     try {
       setLoading(true);
       await sendPasswordResetEmail(auth, email);
-      setResetMessage('Password reset email sent! Please check your inbox . ');
+      setResetMessage('Password reset email sent! Please check your inbox . also check your spam mails');
     } catch (err) {
       setError(err.message);
     } finally {
